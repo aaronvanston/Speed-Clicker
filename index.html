@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Colour Randomise</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="jquery.color.js"></script>
+    <style>
+        html, body {
+            background-color: #d35400;
+            padding: 0;
+            margin: 0;
+            color: #fff;
+            font: 14px "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+            line-height: 1.5em;
+            text-align: center;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .display {
+            height: 33%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 60px;
+            right: 0;
+            margin: auto auto;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .title {
+            font-size: 900%;
+            text-transform: uppercase;
+        }
+        .sub {
+            font-size: 300%;
+        }
+        footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            line-height: 60px;
+        }
+        .author-information {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 60px;
+            padding-left: 30px;
+            font-size: 150%;
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.5s ease;
+        }
+        a.author-information:hover {
+            color: rgba(255,255,255,0.3);
+            transition: color 0.5s ease;
+            text-decoration: none;
+        }
+
+        .timer {
+            position: absolute;
+            right: 25px;
+            bottom: 10px;
+            height: 70px;
+            padding-left: 27px;
+            font-size: 600%;
+        }
+
+        #reset {
+            background-color: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.35);
+            color: rgba(255,255,255,0.8);
+            font-size: 200%;
+        }
+        #reset:hover {
+            background-color: rgba(255,255,255,0.6);
+        }
+        .noselect {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+
+<main>
+    <div class="display">
+        <h1 class="title">Click Away</h1>
+        <h1 class="sub"></h1>
+        <span id="reset" class="btn btn-default btn-lg" style="display: none;">Reset</span>
+    </div>
+</main>
+
+<footer>
+    <a href="http://aaronvanston.com/portfolio" class="author-information noselect">Aaron Vanston</a>
+    <span class="timer noselect" style="display: none;">
+        10
+    </span>
+
+</footer>
+
+
+<script>
+    var click = 0;
+    var beenClicked = false;
+    var canClick = true;
+    $("html").click(function(){
+        if(window.canClick == true){
+            var colour = '#'+Math.floor(Math.random()*16777215).toString(16);
+            click++;
+            timing();
+            $(".title").text(click);
+            $("body").css({backgroundColor: colour});
+        }
+    });
+
+
+    var sec = $(".timer").text() || 0;
+    function timing() {
+        if(beenClicked == false){
+            beenClicked = true;
+            $(".timer").show();
+            var timer = setInterval(function() {
+                $(".timer").text(--sec);
+                if (sec == 0) {
+                    $(".timer").fadeOut('fast');
+                    clearInterval(timer);
+                    window.canClick = false;
+                    if(click == 1){
+                        $(".title").append(" Click");
+                    } else {
+                        $(".title").append(" Clicks");
+                    }
+                    $(".sub").show().text("or " + window.click * 6 + " a minute.");
+                    $("#reset").show();
+                }
+            }, 1000);
+        }
+    }
+
+    $("#reset").click(function(event){
+        event.stopPropagation();
+        $("#reset").hide();
+        $(".sub").hide();
+        $(".title").text("Click Away");
+        $(".timer").text("10");
+        sec = $(".timer").text() || 0;
+        click = 0;
+        beenClicked = false;
+        canClick = true;
+    });
+
+</script>
+</body>
+</html>
