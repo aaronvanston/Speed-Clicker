@@ -34,11 +34,11 @@
         }
 
         .title {
-            font-size: 900%;
+            font-size: 400%;
             text-transform: uppercase;
         }
         .sub {
-            font-size: 300%;
+            font-size: 200%;
         }
         footer {
             position: absolute;
@@ -89,6 +89,14 @@
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
+        }
+        @media (min-width: 992px) {
+            .title {
+                font-size: 900%;
+            }
+            .sub {
+                font-size: 300%;
+            }
         }
     </style>
 </head>
@@ -143,7 +151,7 @@
                         $(".title").append(" Clicks");
                     }
                     $(".sub").show().text("or " + window.click * 6 + " a minute.");
-                    $("#reset").show();
+                    $("#reset").fadeIn( 1000 );
                 }
             }, 1000);
         }
